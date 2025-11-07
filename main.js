@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import Globe from 'globe.gl';
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(
@@ -20,8 +21,10 @@ scene.add(cube);
 camera.position.z = 5;
 
 function animate() {
+
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.01;
+
   renderer.render(scene, camera);
 }
 renderer.setAnimationLoop(animate);
