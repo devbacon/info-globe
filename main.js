@@ -19,7 +19,7 @@ const gData = [...Array(N).keys()].map(() => ({
 }));
 
 const Globe = new ThreeGlobe()
-  .globeImageUrl("/public/earth-labeled-colored-deep.jpg")
+  .globeImageUrl("/public/earth-blue-marble.jpg")
   .bumpImageUrl("/public/earth-topology.png")
   .htmlElementsData(gData)
   .htmlElement((d) => {
@@ -33,6 +33,27 @@ const Globe = new ThreeGlobe()
   .htmlElementVisibilityModifier(
     (el, isVisible) => (el.style.opacity = isVisible ? 1 : 0)
   );
+
+const CLOUDS_IMG_URL = "./clouds.png"; // from https://github.com/turban/webgl-earth
+const CLOUDS_ALT = 0.004;
+const CLOUDS_ROTATION_SPEED = -0.006; // deg/frame
+
+const Clouds = new THREE.Mesh(
+  new THREE.SphereGeometry(Globe.getGlobeRadius() * (1 + CLOUDS_ALT), 75, 75)
+);
+new THREE.TextureLoader().load(CLOUDS_IMG_URL, (cloudsTexture) => {
+  Clouds.material = new THREE.MeshPhongMaterial({
+    map: cloudsTexture,
+    transparent: true,
+  });
+});
+
+Globe.add(Clouds);
+
+(function rotateClouds() {
+  Clouds.rotation.y += (CLOUDS_ROTATION_SPEED * Math.PI) / 180;
+  requestAnimationFrame(rotateClouds);
+})();
 
 // Setup renderers
 const renderers = [new THREE.WebGLRenderer(), new CSS2DRenderer()];
