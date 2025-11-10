@@ -19,7 +19,7 @@ const gData = [...Array(N).keys()].map(() => ({
 }));
 
 const Globe = new ThreeGlobe()
-  .globeImageUrl("/public/earth-dark.jpg")
+  .globeImageUrl("/public/earth-labeled-colored-deep.jpg")
   .bumpImageUrl("/public/earth-topology.png")
   .htmlElementsData(gData)
   .htmlElement((d) => {
